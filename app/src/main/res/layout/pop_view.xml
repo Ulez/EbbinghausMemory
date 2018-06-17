@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~  Copyright (C) 2015 GuDong <gudong.name@gmail.com>
+  ~
+  ~  This file is part of GdTranslate
+  ~
+  ~  GdTranslate is free software: you can redistribute it and/or modify
+  ~  it under the terms of the GNU General Public License as published by
+  ~  the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~  GdTranslate is distributed in the hope that it will be useful,
+  ~  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~  GNU General Public License for more details.
+  ~
+  ~  You should have received a copy of the GNU General Public License
+  ~  along with GdTranslate.  If not, see <http://www.gnu.org/licenses/>.
+  ~
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pop_view_content_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/md_blue_grey_700"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/ll_pop_src"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="@dimen/leftmargin2"
+        android:layout_marginTop="@dimen/leftmargin2"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_pronounce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/tv_word"
+            android:textColor="@color/md_grey_400"
+            tools:text="[wɑ:t]" />
+
+        <TextView
+            android:id="@+id/tv_word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/leftmargin2"
+            android:layout_marginRight="@dimen/leftmargin2"
+            android:background="@null"
+            android:gravity="left"
+            android:includeFontPadding="false"
+            android:text="@string/app_name"
+            android:textColor="@color/md_white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/leftmargin2"
+            android:layout_marginRight="@dimen/leftmargin2"
+            android:layout_toEndOf="@id/tv_pronounce"
+            android:textColor="@color/md_white"
+            android:visibility="visible"
+            tools:text="查词中..."
+            tools:visibility="visible" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_Explains"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_pop_src"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/leftmargin2"
+        android:layout_marginRight="@dimen/leftmargin2"
+        android:layout_marginTop="@dimen/leftmargin2"
+        android:text="@string/app_name"
+        android:textColor="@android:color/white" />
+</RelativeLayout>
+
