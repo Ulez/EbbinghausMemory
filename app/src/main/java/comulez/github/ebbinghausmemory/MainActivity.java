@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity
                         .input(R.string.input_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
-                                new TaskContent(input.toString());
+                                TaskContent.newTask(input.toString());
                                 tasksFragment.notifyDataSetChanged();
                             }
                         }).show();

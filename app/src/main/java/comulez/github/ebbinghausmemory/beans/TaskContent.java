@@ -24,27 +24,44 @@ public class TaskContent {
     private static final int minute = 1000 * 60;//分钟换毫秒；
     private static final int hour = 60 * 1000 * 60;//小时换毫秒；
     private static final int day = 24 * 1000 * 60 * 60;//天换毫秒；
+
+    public static final int TASK_TYPE_NEW = 0;
+    public static final int TASK_TYPE_OLD = 1;
+
+    public int task_type;
     /**
      * An array of sample (dummy) items.
      */
     public List<RecordInfo> ITEMS = new ArrayList<>();
     public long currentTimeMillis;
     TaskBean task;
-
-    /**
-     * A map of sample (dummy) items, by ID.
-     */
     public static final Map<Integer, RecordInfo> ITEM_MAP = new HashMap<Integer, RecordInfo>();
-    private static final int COUNT = 8;
+    private static final int COUNT = 10;
 
-    public TaskContent(String title) {
-        // Add some sample items.
+    private TaskContent(String title, int task_type) {
         currentTimeMillis = System.currentTimeMillis();
         task = new TaskBean(title, '1', new Date(), title);
         new TaskDao(EApplication.getContext()).insert(task);
-        for (int i = 0; i <= COUNT; i++) {
+        int start = 0;
+        switch (task_type) {
+            case TASK_TYPE_NEW:
+                start = 0;
+                break;
+            case TASK_TYPE_OLD:
+                start = 4;
+                break;
+        }
+        for (int i = start; i <= COUNT; i++) {
             addItem(createRecordItem(i, title));
         }
+    }
+
+    public static TaskContent newTask(String title) {
+        return new TaskContent(title, TASK_TYPE_NEW);
+    }
+
+    public static TaskContent oldTask(String title) {
+        return new TaskContent(title, TASK_TYPE_OLD);
     }
 
 
@@ -54,39 +71,70 @@ public class TaskContent {
     }
 
     private RecordInfo createRecordItem(int position, String title) {
-        switch (position) {
-            case 0:
-                currentTimeMillis += 0;
-                break;
-            case 1:
-                currentTimeMillis += minute * 5;
-                break;
-            case 2:
-                currentTimeMillis += minute * 30;
-                break;
-            case 3:
-                currentTimeMillis += hour * 12;
-                break;
-            case 4:
-                currentTimeMillis += day * 1;
-                break;
-            case 5:
-                currentTimeMillis += day * 2;
-                break;
-            case 6:
-                currentTimeMillis += day * 4;
-                break;
-            case 7:
-                currentTimeMillis += day * 7;
-                break;
-            case 8:
-                currentTimeMillis += day * 15;
-                break;
+        Date date;
+        RecordInfo recordInfo;
+        switch (task_type) {
+            case TASK_TYPE_OLD:
+                switch (position) {
+                    case 4:
+                        currentTimeMillis += 0;
+                        break;
+                    case 5:
+                        currentTimeMillis += day * 1;
+                        break;
+                    case 6:
+                        currentTimeMillis += day * 2;
+                        break;
+                    case 7:
+                        currentTimeMillis += day * 4;
+                        break;
+                    case 8:
+                        currentTimeMillis += day * 7;
+                        break;
+                    default:
+                        currentTimeMillis += day * 15;
+                        break;
+                }
+                date = new Date(currentTimeMillis);
+                recordInfo = new RecordInfo(position, title, date, task, position);
+                new RecordDao(EApplication.getContext()).insert(recordInfo);
+                return recordInfo;
+            default:
+                switch (position) {
+                    case 0:
+                        currentTimeMillis += 0;
+                        break;
+                    case 1:
+                        currentTimeMillis += minute * 5;
+                        break;
+                    case 2:
+                        currentTimeMillis += minute * 30;
+                        break;
+                    case 3:
+                        currentTimeMillis += hour * 12;
+                        break;
+                    case 4:
+                        currentTimeMillis += day * 1;
+                        break;
+                    case 5:
+                        currentTimeMillis += day * 2;
+                        break;
+                    case 6:
+                        currentTimeMillis += day * 4;
+                        break;
+                    case 7:
+                        currentTimeMillis += day * 7;
+                        break;
+                    default:
+                        currentTimeMillis += day * 15;
+                        break;
+                }
+                date = new Date(currentTimeMillis);
+                recordInfo = new RecordInfo(position, title, date, task, position);
+                new RecordDao(EApplication.getContext()).insert(recordInfo);
+                return recordInfo;
         }
-        Date date = new Date(currentTimeMillis);
-        RecordInfo recordInfo = new RecordInfo(position, title, date, task, position);
-        new RecordDao(EApplication.getContext()).insert(recordInfo);
-        return recordInfo;
+
     }
 
     private static String makeDetails(int position) {

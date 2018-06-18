@@ -1,34 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="@dimen/activity_horizontal_margin">
 
-    <TextView
-        android:id="@+id/no"
+    <LinearLayout
+        android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="item_number"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textColor="@color/md_deep_purple_200" />
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/time"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="title"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/md_yellow_300"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="content"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/md_white" />
+
+
+    </LinearLayout>
+
+    <CheckBox
+        android:theme="@style/My_CheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="content"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textColor="@color/md_white" />
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="15dp" />
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="title"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textColor="@color/md_yellow_300"
-        android:textSize="10sp" />
-</LinearLayout>
+</RelativeLayout>

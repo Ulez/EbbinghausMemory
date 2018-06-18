@@ -43,8 +43,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).no + ".");
-        holder.mTimeView.setText(simpleDateFormat.format(mValues.get(position).plandate));
+        holder.mTimeView.setText(mValues.get(position).no + ". " + simpleDateFormat.format(mValues.get(position).plandate));
         holder.mTitle.setText(mValues.get(position).title);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +69,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
         public final TextView mTimeView;
         public final TextView mTitle;
         public RecordInfo mItem;
@@ -78,7 +76,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.no);
             mTimeView = (TextView) view.findViewById(R.id.time);
             mTitle = view.findViewById(R.id.title);
         }
