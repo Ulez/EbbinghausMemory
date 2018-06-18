@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -45,15 +46,27 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.mItem = mValues.get(position);
         holder.mTimeView.setText(mValues.get(position).no + ". " + simpleDateFormat.format(mValues.get(position).plandate));
         holder.mTitle.setText(mValues.get(position).title);
+        holder.imageView.setImageResource(holder.mItem.isDone() ? R.drawable.done : R.drawable.un);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("", "onClick：");
                 if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onClick(holder.mItem);
                 }
+            }
+        });
+
+        holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.e("", "onLongClick：");
+                if (null != mListener) {
+                    mListener.onLongClick(holder.mItem);
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -71,12 +84,14 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public final View mView;
         public final TextView mTimeView;
         public final TextView mTitle;
+        public final ImageView imageView;
         public RecordInfo mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mTimeView = (TextView) view.findViewById(R.id.time);
+            imageView = view.findViewById(R.id.cb_done);
             mTitle = view.findViewById(R.id.title);
         }
 

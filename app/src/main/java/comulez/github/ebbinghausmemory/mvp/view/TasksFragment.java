@@ -120,6 +120,7 @@ public class TasksFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(RecordInfo item);
+        void onLongClick(RecordInfo item);
+        void onClick(RecordInfo item);
     }
 }

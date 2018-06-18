@@ -252,8 +252,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(RecordInfo item) {
-        Log.e("lcy", item.toString());
+    public void onLongClick(RecordInfo item) {
+        Log.e("lcy onLongClick", item.toString());
+    }
+
+    @Override
+    public void onClick(RecordInfo item) {
+        Log.e("lcy onClick", item.toString());
     }
 
     @Override
