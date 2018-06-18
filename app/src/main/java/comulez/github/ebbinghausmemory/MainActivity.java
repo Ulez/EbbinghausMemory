@@ -1,5 +1,6 @@
 package comulez.github.ebbinghausmemory;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +15,7 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -24,6 +26,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import comulez.github.ebbinghausmemory.beans.RecordInfo;
 import comulez.github.ebbinghausmemory.beans.TaskContent;
@@ -47,11 +51,13 @@ public class MainActivity extends AppCompatActivity
     private TranslateFragment translateFragment;
     int i = 0;
     private TasksFragment tasksFragment;
+    private Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        activity = this;
         fManager = getSupportFragmentManager();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,10 +66,16 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utils.t("新建任务");
-                i++;
-                new TaskContent("任务" + i);
-                tasksFragment.notifyDataSetChanged();
+                new MaterialDialog.Builder(activity)
+                        .title(R.string.title)
+                        .inputType(InputType.TYPE_CLASS_TEXT)
+                        .input(R.string.input_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                                new TaskContent(input.toString());
+                                tasksFragment.notifyDataSetChanged();
+                            }
+                        }).show();
             }
         });
 
