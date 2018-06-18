@@ -311,7 +311,7 @@ public class MainActivity extends AppCompatActivity
                             RecordInfo item = records.get(i);
                             if (item.getTask().getId() == taskId) {
                                 if (i == position) item.setDone(true);
-                                item.setPlandate(calculateUtil.getDate(item.getNo(), position));
+                                item.setPlandate(calculateUtil.getDate(item.getNo(), records.get(position).getNo()));
                                 new RecordDao(EApplication.getContext()).update(item);
                             }
                         }
