@@ -55,14 +55,14 @@ public class MainActivity extends AppCompatActivity
         fManager = getSupportFragmentManager();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        makeTask();
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Utils.t("新建任务");
-                new TaskContent("任务" + (i + 1));
+                i++;
+                new TaskContent("任务" + i);
                 tasksFragment.notifyDataSetChanged();
             }
         });
@@ -79,10 +79,6 @@ public class MainActivity extends AppCompatActivity
         tasksFragment = TasksFragment.newInstance(10);
         fManager.beginTransaction().replace(R.id.content_frame, tasksFragment).commit();
         Log.e(TAG, "add TasksFragment");
-    }
-
-    private void makeTask() {
-        new TaskContent("任务1");
     }
 
     /**
