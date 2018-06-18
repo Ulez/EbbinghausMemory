@@ -81,7 +81,7 @@ public class TasksFragment extends Fragment {
         return view;
     }
 
-    public void notifi() {
+    public void notifyDataSetChanged() {
         RecordDao recordDao = new RecordDao(getActivity());
         List<RecordInfo> records = recordDao.selectAll();
         adapter.setData(records);

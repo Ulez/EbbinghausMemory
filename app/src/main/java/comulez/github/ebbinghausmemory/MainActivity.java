@@ -25,15 +25,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.Date;
-import java.util.List;
-
 import comulez.github.ebbinghausmemory.beans.RecordInfo;
-import comulez.github.ebbinghausmemory.beans.TaskBean;
 import comulez.github.ebbinghausmemory.beans.TaskContent;
 import comulez.github.ebbinghausmemory.beans.YouDaoBean;
-import comulez.github.ebbinghausmemory.dao.RecordDao;
-import comulez.github.ebbinghausmemory.dao.TaskDao;
 import comulez.github.ebbinghausmemory.mvp.ListenClipboardService;
 import comulez.github.ebbinghausmemory.mvp.view.ITranslateView;
 import comulez.github.ebbinghausmemory.mvp.view.TasksFragment;
@@ -51,6 +45,8 @@ public class MainActivity extends AppCompatActivity
     private Intent intent;
     private int OVERLAY_PERMISSION_REQ_CODE = 45;
     private TranslateFragment translateFragment;
+    int i = 0;
+    private TasksFragment tasksFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +55,15 @@ public class MainActivity extends AppCompatActivity
         fManager = getSupportFragmentManager();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        makeTask();
+//        makeTask();
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Utils.t("新建任务");
+                new TaskContent("任务" + (i + 1));
+                tasksFragment.notifyDataSetChanged();
             }
         });
 
@@ -78,13 +76,13 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        TasksFragment tasksFragment = TasksFragment.newInstance(10);
+        tasksFragment = TasksFragment.newInstance(10);
         fManager.beginTransaction().replace(R.id.content_frame, tasksFragment).commit();
         Log.e(TAG, "add TasksFragment");
     }
 
     private void makeTask() {
-        new TaskContent("任务111");
+        new TaskContent("任务1");
     }
 
     /**
@@ -203,7 +201,7 @@ public class MainActivity extends AppCompatActivity
         fab.setVisibility(View.VISIBLE);
         int id = item.getItemId();
         if (id == R.id.nav_tasks) {
-            TasksFragment tasksFragment = TasksFragment.newInstance(10);
+            tasksFragment = TasksFragment.newInstance(10);
             fManager.beginTransaction().replace(R.id.content_frame, tasksFragment).commit();
             Log.e("lcy", "tasksFragment,fly_content");
         } else if (id == R.id.nav_translate) {
