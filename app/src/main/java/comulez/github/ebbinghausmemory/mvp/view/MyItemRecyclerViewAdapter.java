@@ -35,7 +35,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.e(TAG, "onCreateViewHolder");
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_item, parent, false);
         return new ViewHolder(view);
@@ -43,12 +42,10 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Log.e(TAG, "onBindViewHolder position=" + position);
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id + ".");
+        holder.mIdView.setText(mValues.get(position).no + ".");
         holder.mTimeView.setText(simpleDateFormat.format(mValues.get(position).plandate));
         holder.mTitle.setText(mValues.get(position).title);
-        Log.e("onBindViewHolder","plandate="+mValues.get(position).plandate.toString());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

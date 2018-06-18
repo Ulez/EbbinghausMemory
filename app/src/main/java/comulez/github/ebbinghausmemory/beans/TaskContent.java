@@ -36,6 +36,7 @@ public class TaskContent {
      */
     public static final Map<Integer, RecordInfo> ITEM_MAP = new HashMap<Integer, RecordInfo>();
     private static final int COUNT = 8;
+
     public TaskContent(String title) {
         // Add some sample items.
         currentTimeMillis = System.currentTimeMillis();
@@ -84,7 +85,7 @@ public class TaskContent {
                 break;
         }
         Date date = new Date(currentTimeMillis);
-        RecordInfo recordInfo = new RecordInfo(position, title, date, task);
+        RecordInfo recordInfo = new RecordInfo(position, title, date, task, position);
         new RecordDao(EApplication.getContext()).insert(recordInfo);
         return recordInfo;
     }

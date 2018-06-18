@@ -8,6 +8,7 @@ import java.util.Date;
 @DatabaseTable(tableName = "record")
 public class RecordInfo {
     public static final String COLUMNNAME_ID = "id";
+    public static final String COLUMNNAME_NO = "no";
     public static final String COLUMNNAME_TITLE = "title";
     public static final String COLUMNNAME_PLANDATE = "plandate";
     public static final String COLUMNNAME_DONE = "done";
@@ -25,14 +26,26 @@ public class RecordInfo {
     @DatabaseField(generatedId = true, columnName = COLUMNNAME_ID, useGetSet = true)
     public int id;
 
+    @DatabaseField(columnName = COLUMNNAME_NO, useGetSet = true)
+    public int no;
+
     public RecordInfo() {
     }
 
-    public RecordInfo(int id, String title, Date plandate, TaskBean task) {
+    public RecordInfo(int id, String title, Date plandate, TaskBean task, int no) {
         this.id = id;
         this.title = title;
         this.plandate = plandate;
         this.task_id = task;
+        this.no = no;
+    }
+
+    public int getNo() {
+        return no;
+    }
+
+    public void setNo(int no) {
+        this.no = no;
     }
 
     public int getId() {
