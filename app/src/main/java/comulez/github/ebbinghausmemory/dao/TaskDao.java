@@ -6,6 +6,7 @@ import com.j256.ormlite.dao.Dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import comulez.github.ebbinghausmemory.EApplication;
 import comulez.github.ebbinghausmemory.beans.TaskBean;
 import comulez.github.ebbinghausmemory.utils.DatabaseHelper;
 
@@ -45,6 +46,7 @@ public class TaskDao {
     public void delete(TaskBean data) {
         try {
             dao.delete(data);
+            new RecordDao(EApplication.getContext()).deleteByTask(data);
         } catch (SQLException e) {
             e.printStackTrace();
         }

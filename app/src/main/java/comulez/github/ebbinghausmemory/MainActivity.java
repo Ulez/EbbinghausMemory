@@ -29,7 +29,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -107,7 +106,6 @@ public class MainActivity extends AppCompatActivity
 
         tasksFragment = TasksFragment.newInstance(10);
         fManager.beginTransaction().replace(R.id.content_frame, tasksFragment).commit();
-        Log.e(TAG, "add TasksFragment");
     }
 
     /**
@@ -165,7 +163,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void translate(String q, String from, String to, String appKey, int salt, String sign) {
-        Log.e(TAG, "translate");
         clipboardService.translate(q, "auto", "zh_CHS", Constant.appkey, 2, Utils.md5(Constant.appkey + q + 2 + Constant.miyao));
     }
 
@@ -229,7 +226,6 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_tasks) {
             tasksFragment = TasksFragment.newInstance(10);
             fManager.beginTransaction().replace(R.id.content_frame, tasksFragment).commit();
-            Log.e("lcy", "tasksFragment,fly_content");
         } else if (id == R.id.nav_translate) {
             if (intent == null) {
                 askForPermission();
@@ -239,7 +235,6 @@ public class MainActivity extends AppCompatActivity
             }
             translateFragment = TranslateFragment.newInstance("aaaa", "bbbb");
             fManager.beginTransaction().replace(R.id.content_frame, translateFragment).commit();
-            Log.e("lcy", "tasksFragment,tasksFragment");
             fab.setVisibility(View.GONE);
         } else if (id == R.id.nav_slideshow) {
 
@@ -269,15 +264,36 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onLongClick(List<RecordInfo> records, int position) {
-        Log.e("lcy onLongClick", records.get(position).toString());
+    public void onLongClick(final List<RecordInfo> records, final int position) {
+        final int taskId = records.get(position).getTask().getId();
+        new MaterialDialog.Builder(this)
+                .title(R.string.delete)
+                .positiveText(R.string.allow)
+                .negativeText(R.string.deny)
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        Snackbar.make(fab, "已取消！ヾ(◍°∇°◍)ﾉﾞ ", Snackbar.LENGTH_SHORT)
+                                .setAction("Action", null).show();
+                    }
+                })
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        new TaskDao(EApplication.getContext()).delete(records.get(position).getTask());
+                        Snackbar.make(fab, "已删除！୧(๑•̀◡•́๑)૭ ", Snackbar.LENGTH_SHORT)
+                                .setAction("Action", null).show();
+                        tasksFragment.notifyDataSetChanged();
+                    }
+                })
+                .show();
     }
 
     @Override
     public void onClick(final List<RecordInfo> records, final int position) {
         final int taskId = records.get(position).getTask().getId();
         new MaterialDialog.Builder(this)
-                .title(R.string.example_title)
+                .title(R.string.confirm)
                 .positiveText(R.string.allow)
                 .negativeText(R.string.deny)
                 .onNegative(new MaterialDialog.SingleButtonCallback() {

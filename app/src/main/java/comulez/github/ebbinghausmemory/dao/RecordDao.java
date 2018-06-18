@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 
 import java.sql.SQLException;
 import java.util.Collections;
@@ -37,6 +38,16 @@ public class RecordDao {
             dao.create(data);
         } catch (SQLException e) {
             Log.e("SQLException", e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteByTask(TaskBean data) {
+        try {
+            DeleteBuilder<RecordInfo, Integer> deleteBuilder = dao.deleteBuilder();
+            deleteBuilder.where().eq(RecordInfo.COLUMNNAME_TASK, data.getId());
+            deleteBuilder.delete();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

@@ -38,5 +38,6 @@
     <string name="input_prefill"></string>
     <string name="allow">是滴！</string>
     <string name="deny"><![CDATA[>_<]]></string>
-    <string name="example_title">确认完成咩？</string>
+    <string name="confirm">确认完成咩？</string>
+    <string name="delete">删除此任务咩？</string>
 </resources>

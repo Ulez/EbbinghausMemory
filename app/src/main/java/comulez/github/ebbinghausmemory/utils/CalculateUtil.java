@@ -17,7 +17,6 @@ public class CalculateUtil {
 
 
     public Date getDate(int position, int cu) {
-        Log.e("lcy", "position=" + position + ",点击的pos=" + cu);
         if (cu == position) return new Date(currentTimeMillis);
         switch (position) {
             case 0:
