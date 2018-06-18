@@ -12,7 +12,6 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -26,12 +25,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Date;
+import java.util.List;
+
+import comulez.github.ebbinghausmemory.beans.RecordInfo;
+import comulez.github.ebbinghausmemory.beans.TaskBean;
+import comulez.github.ebbinghausmemory.beans.TaskContent;
 import comulez.github.ebbinghausmemory.beans.YouDaoBean;
+import comulez.github.ebbinghausmemory.dao.RecordDao;
+import comulez.github.ebbinghausmemory.dao.TaskDao;
 import comulez.github.ebbinghausmemory.mvp.ListenClipboardService;
 import comulez.github.ebbinghausmemory.mvp.view.ITranslateView;
 import comulez.github.ebbinghausmemory.mvp.view.TasksFragment;
 import comulez.github.ebbinghausmemory.mvp.view.TranslateFragment;
-import comulez.github.ebbinghausmemory.mvp.view.dummy.TaskContent;
 import comulez.github.ebbinghausmemory.utils.Constant;
 import comulez.github.ebbinghausmemory.utils.Utils;
 
@@ -53,13 +59,13 @@ public class MainActivity extends AppCompatActivity
         fManager = getSupportFragmentManager();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        makeTask();
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Utils.t("新建任务");
             }
         });
 
@@ -77,8 +83,12 @@ public class MainActivity extends AppCompatActivity
         Log.e(TAG, "add TasksFragment");
     }
 
+    private void makeTask() {
+        new TaskContent("任务111");
+    }
+
     /**
-     * 用户返回
+     * task返回
      *
      * @param requestCode
      * @param resultCode
@@ -97,9 +107,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /**
-     * 请求用户给予悬浮窗的权限
-     */
     private void askForPermission() {
         if (Utils.isM() && !Utils.getBoolean(Constant.hasPermission, false)) {
             new AlertDialog.Builder(this).setMessage(getString(R.string.tip1))
@@ -238,7 +245,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(TaskContent.RecordInfo item) {
+    public void onListFragmentInteraction(RecordInfo item) {
         Log.e("lcy", item.toString());
     }
 

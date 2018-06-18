@@ -1,13 +1,16 @@
-package comulez.github.ebbinghausmemory.mvp.view.dummy;
+package comulez.github.ebbinghausmemory.beans;
 
 import android.util.Log;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import comulez.github.ebbinghausmemory.EApplication;
+import comulez.github.ebbinghausmemory.dao.RecordDao;
+import comulez.github.ebbinghausmemory.dao.TaskDao;
 
 /**
  * Helper class for providing sample content for user interfaces created by
@@ -24,20 +27,20 @@ public class TaskContent {
     /**
      * An array of sample (dummy) items.
      */
-    public List<RecordInfo> ITEMS = new ArrayList<RecordInfo>();
+    public List<RecordInfo> ITEMS = new ArrayList<>();
     public long currentTimeMillis;
+    TaskBean task;
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static final Map<String, RecordInfo> ITEM_MAP = new HashMap<String, RecordInfo>();
-
+    public static final Map<Integer, RecordInfo> ITEM_MAP = new HashMap<Integer, RecordInfo>();
     private static final int COUNT = 8;
-    static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");// HH:mm:ss
-
     public TaskContent(String title) {
         // Add some sample items.
         currentTimeMillis = System.currentTimeMillis();
+        task = new TaskBean(title, '1', new Date(), title);
+        new TaskDao(EApplication.getContext()).insert(task);
         for (int i = 0; i <= COUNT; i++) {
             addItem(createRecordItem(i, title));
         }
@@ -81,7 +84,9 @@ public class TaskContent {
                 break;
         }
         Date date = new Date(currentTimeMillis);
-        return new RecordInfo(String.valueOf(position), simpleDateFormat.format(date), makeDetails(position), title);
+        RecordInfo recordInfo = new RecordInfo(position, title, date, task);
+        new RecordDao(EApplication.getContext()).insert(recordInfo);
+        return recordInfo;
     }
 
     private static String makeDetails(int position) {
@@ -93,34 +98,4 @@ public class TaskContent {
         return builder.toString();
     }
 
-    /**
-     * A dummy item representing a piece of content.
-     */
-    public static class RecordInfo {
-        public final String id;
-        public Date date;
-        public boolean done = false;
-        public String content;
-        public String title;
-        public String details;
-
-        public RecordInfo(String id, String title, Date date) {
-            this.id = id;
-            this.title = title;
-            this.date = date;
-        }
-
-
-        public RecordInfo(String id, String content, String details, String title) {
-            this.id = id;
-            this.content = content;
-            this.details = details;
-            this.title = title;
-        }
-
-        @Override
-        public String toString() {
-            return content;
-        }
-    }
 }

@@ -4,16 +4,20 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
+import comulez.github.ebbinghausmemory.MainActivity;
 import comulez.github.ebbinghausmemory.R;
-import comulez.github.ebbinghausmemory.mvp.view.dummy.TaskContent;
-import comulez.github.ebbinghausmemory.mvp.view.dummy.TaskContent.RecordInfo;
+import comulez.github.ebbinghausmemory.beans.RecordInfo;
+import comulez.github.ebbinghausmemory.beans.TaskContent;
+import comulez.github.ebbinghausmemory.dao.RecordDao;
+
 
 /**
  * A fragment representing a list of Items.
@@ -28,6 +32,7 @@ public class TasksFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private MyItemRecyclerViewAdapter adapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -67,10 +72,20 @@ public class TasksFragment extends Fragment {
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-            TaskContent content = new TaskContent("任务1");
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(content.ITEMS, mListener));
+//            TaskContent content = new TaskContent("任务1");
+            RecordDao recordDao = new RecordDao(getActivity());
+            List<RecordInfo> records = recordDao.selectAll();
+            adapter = new MyItemRecyclerViewAdapter(records, mListener);
+            recyclerView.setAdapter(adapter);
         }
         return view;
+    }
+
+    public void notifi() {
+        RecordDao recordDao = new RecordDao(getActivity());
+        List<RecordInfo> records = recordDao.selectAll();
+        adapter.setData(records);
+        adapter.notifyDataSetChanged();
     }
 
 
