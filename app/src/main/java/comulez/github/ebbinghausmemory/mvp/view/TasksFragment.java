@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import comulez.github.ebbinghausmemory.R;
 import comulez.github.ebbinghausmemory.beans.RecordInfo;
 import comulez.github.ebbinghausmemory.beans.TaskContent;
 import comulez.github.ebbinghausmemory.dao.RecordDao;
+import comulez.github.ebbinghausmemory.utils.Utils;
 
 
 /**
@@ -74,7 +76,7 @@ public class TasksFragment extends Fragment {
             recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 //            TaskContent content = new TaskContent("任务1");
             RecordDao recordDao = new RecordDao(getActivity());
-            List<RecordInfo> records = recordDao.selectAll();
+            List<RecordInfo> records = recordDao.selectAllByPlanDate();
             adapter = new MyItemRecyclerViewAdapter(records, mListener);
             recyclerView.setAdapter(adapter);
         }
@@ -83,7 +85,7 @@ public class TasksFragment extends Fragment {
 
     public void notifyDataSetChanged() {
         RecordDao recordDao = new RecordDao(getActivity());
-        List<RecordInfo> records = recordDao.selectAll();
+        List<RecordInfo> records = recordDao.selectAllByPlanDate();
         adapter.setData(records);
         adapter.notifyDataSetChanged();
     }

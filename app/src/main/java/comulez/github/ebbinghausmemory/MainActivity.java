@@ -155,7 +155,8 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "onDestroy -- unbindService");
-        unbindService(mConnection);
+        if (clipboardService != null)
+            unbindService(mConnection);
     }
 
     @Override

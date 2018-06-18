@@ -4,7 +4,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
+
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import comulez.github.ebbinghausmemory.beans.RecordInfo;
@@ -33,7 +36,7 @@ public class RecordDao {
         try {
             dao.create(data);
         } catch (SQLException e) {
-            Log.e("SQLException",e.getMessage());
+            Log.e("SQLException", e.getMessage());
             e.printStackTrace();
         }
     }
@@ -85,6 +88,17 @@ public class RecordDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return recordInfos;
+    }
+
+    public List<RecordInfo> selectAllByPlanDate() {
+        List<RecordInfo> recordInfos = selectAll();
+        Collections.sort(recordInfos, new Comparator<RecordInfo>() {
+            @Override
+            public int compare(RecordInfo o1, RecordInfo o2) {
+                return o1.getPlandate().compareTo(o2.getPlandate());
+            }
+        });
         return recordInfos;
     }
 }

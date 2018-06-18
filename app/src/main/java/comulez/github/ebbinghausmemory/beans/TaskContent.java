@@ -54,7 +54,6 @@ public class TaskContent {
     }
 
     private RecordInfo createRecordItem(int position, String title) {
-        Log.e(TAG, "createRecordItem position=" + position);
         switch (position) {
             case 0:
                 currentTimeMillis += 0;

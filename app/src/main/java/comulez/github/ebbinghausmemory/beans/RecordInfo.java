@@ -1,12 +1,14 @@
 package comulez.github.ebbinghausmemory.beans;
 
+import android.support.annotation.NonNull;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Date;
 
 @DatabaseTable(tableName = "record")
-public class RecordInfo {
+public class RecordInfo{
     public static final String COLUMNNAME_ID = "id";
     public static final String COLUMNNAME_NO = "no";
     public static final String COLUMNNAME_TITLE = "title";
