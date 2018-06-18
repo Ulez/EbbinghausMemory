@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.Date;
 
 @DatabaseTable(tableName = "record")
-public class RecordInfo{
+public class RecordInfo {
     public static final String COLUMNNAME_ID = "id";
     public static final String COLUMNNAME_NO = "no";
     public static final String COLUMNNAME_TITLE = "title";
@@ -35,6 +35,8 @@ public class RecordInfo{
     }
 
     public RecordInfo(int id, String title, Date plandate, TaskBean task, int no) {
+        if (id == 0)
+            this.done = true;
         this.id = id;
         this.title = title;
         this.plandate = plandate;

@@ -32,8 +32,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title">新建任务</string>
+    <string name="title">新的风暴已经出现!</string>
     <string name="input_content">标题</string>
-    <string name="input_hint">请输入标题</string>
+    <string name="input_hint">怎么能够停止不前?</string>
     <string name="input_prefill"></string>
+    <string name="allow">是滴！</string>
+    <string name="deny"><![CDATA[>_<]]></string>
+    <string name="example_title">确认完成咩？</string>
 </resources>

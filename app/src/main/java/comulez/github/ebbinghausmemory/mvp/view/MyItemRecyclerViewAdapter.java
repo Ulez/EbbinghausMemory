@@ -27,7 +27,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     private List<RecordInfo> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");// HH:mm:ss
+    static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM月dd日 HH:mm  -  yyyy年");// HH:mm:ss
 
     public MyItemRecyclerViewAdapter(List<RecordInfo> items, OnListFragmentInteractionListener listener) {
         mValues = items;
@@ -42,9 +42,9 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
-        holder.mTimeView.setText(mValues.get(position).no + ". " + simpleDateFormat.format(mValues.get(position).plandate));
+        holder.mTimeView.setText(mValues.get(position).no + "、" + simpleDateFormat.format(mValues.get(position).plandate));
         holder.mTitle.setText(mValues.get(position).title);
         holder.imageView.setImageResource(holder.mItem.isDone() ? R.drawable.done : R.drawable.un);
 
@@ -53,7 +53,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             public void onClick(View v) {
                 Log.e("", "onClick：");
                 if (null != mListener) {
-                    mListener.onClick(holder.mItem);
+                    mListener.onClick(mValues, position);
                 }
             }
         });
@@ -63,7 +63,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             public boolean onLongClick(View v) {
                 Log.e("", "onLongClick：");
                 if (null != mListener) {
-                    mListener.onLongClick(holder.mItem);
+                    mListener.onLongClick(mValues, position);
                     return true;
                 }
                 return false;

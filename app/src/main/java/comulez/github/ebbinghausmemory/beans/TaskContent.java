@@ -11,6 +11,7 @@ import java.util.Map;
 import comulez.github.ebbinghausmemory.EApplication;
 import comulez.github.ebbinghausmemory.dao.RecordDao;
 import comulez.github.ebbinghausmemory.dao.TaskDao;
+import comulez.github.ebbinghausmemory.utils.CalculateUtil;
 
 /**
  * Helper class for providing sample content for user interfaces created by
@@ -19,27 +20,21 @@ import comulez.github.ebbinghausmemory.dao.TaskDao;
  * TODO: Replace all uses of this class before publishing your app.
  */
 public class TaskContent {
-
     private static final String TAG = "TaskContent";
-    private static final int minute = 1000 * 60;//分钟换毫秒；
-    private static final int hour = 60 * 1000 * 60;//小时换毫秒；
-    private static final int day = 24 * 1000 * 60 * 60;//天换毫秒；
-
     public static final int TASK_TYPE_NEW = 0;
     public static final int TASK_TYPE_OLD = 1;
-
     public int task_type;
     /**
      * An array of sample (dummy) items.
      */
     public List<RecordInfo> ITEMS = new ArrayList<>();
-    public long currentTimeMillis;
     TaskBean task;
     public static final Map<Integer, RecordInfo> ITEM_MAP = new HashMap<Integer, RecordInfo>();
     private static final int COUNT = 10;
+    private final CalculateUtil calculateUtil;
 
     private TaskContent(String title, int task_type) {
-        currentTimeMillis = System.currentTimeMillis();
+        calculateUtil = new CalculateUtil(System.currentTimeMillis());
         task = new TaskBean(title, '1', new Date(), title);
         new TaskDao(EApplication.getContext()).insert(task);
         int start = 0;
@@ -75,65 +70,19 @@ public class TaskContent {
         RecordInfo recordInfo;
         switch (task_type) {
             case TASK_TYPE_OLD:
-                switch (position) {
-                    case 4:
-                        currentTimeMillis += 0;
-                        break;
-                    case 5:
-                        currentTimeMillis += day * 1;
-                        break;
-                    case 6:
-                        currentTimeMillis += day * 2;
-                        break;
-                    case 7:
-                        currentTimeMillis += day * 4;
-                        break;
-                    case 8:
-                        currentTimeMillis += day * 7;
-                        break;
-                    default:
-                        currentTimeMillis += day * 15;
-                        break;
-                }
-                date = new Date(currentTimeMillis);
+                date = calculateUtil.getDate(position, 4);
                 recordInfo = new RecordInfo(position, title, date, task, position);
                 new RecordDao(EApplication.getContext()).insert(recordInfo);
                 return recordInfo;
             default:
-                switch (position) {
-                    case 0:
-                        currentTimeMillis += 0;
-                        break;
-                    case 1:
-                        currentTimeMillis += minute * 5;
-                        break;
-                    case 2:
-                        currentTimeMillis += minute * 30;
-                        break;
-                    case 3:
-                        currentTimeMillis += hour * 12;
-                        break;
-                    case 4:
-                        currentTimeMillis += day * 1;
-                        break;
-                    case 5:
-                        currentTimeMillis += day * 2;
-                        break;
-                    case 6:
-                        currentTimeMillis += day * 4;
-                        break;
-                    case 7:
-                        currentTimeMillis += day * 7;
-                        break;
-                    default:
-                        currentTimeMillis += day * 15;
-                        break;
-                }
-                date = new Date(currentTimeMillis);
+                date = calculateUtil.getDate(position, 0);
                 recordInfo = new RecordInfo(position, title, date, task, position);
                 new RecordDao(EApplication.getContext()).insert(recordInfo);
                 return recordInfo;
         }
+    }
+
+    public static void updateRecord() {
 
     }
 

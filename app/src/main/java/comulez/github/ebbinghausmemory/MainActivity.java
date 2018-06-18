@@ -11,11 +11,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -26,21 +29,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+
+import java.util.Date;
+import java.util.List;
 
 import comulez.github.ebbinghausmemory.beans.RecordInfo;
 import comulez.github.ebbinghausmemory.beans.TaskContent;
 import comulez.github.ebbinghausmemory.beans.YouDaoBean;
+import comulez.github.ebbinghausmemory.dao.RecordDao;
+import comulez.github.ebbinghausmemory.dao.TaskDao;
 import comulez.github.ebbinghausmemory.mvp.ListenClipboardService;
 import comulez.github.ebbinghausmemory.mvp.view.ITranslateView;
 import comulez.github.ebbinghausmemory.mvp.view.TasksFragment;
 import comulez.github.ebbinghausmemory.mvp.view.TranslateFragment;
+import comulez.github.ebbinghausmemory.utils.CalculateUtil;
 import comulez.github.ebbinghausmemory.utils.Constant;
 import comulez.github.ebbinghausmemory.utils.Utils;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, TasksFragment.OnListFragmentInteractionListener, TranslateFragment.OnFragmentInteractionListener, ITranslateView {
+
+    private static final int minute = 1000 * 60;//分钟换毫秒；
+    private static final int hour = 60 * 1000 * 60;//小时换毫秒；
+    private static final int day = 24 * 1000 * 60 * 60;//天换毫秒；
 
     private static final String TAG = "MainActivity";
     private FragmentManager fManager;
@@ -72,8 +87,10 @@ public class MainActivity extends AppCompatActivity
                         .input(R.string.input_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
-                                TaskContent.newTask(input.toString());
-                                tasksFragment.notifyDataSetChanged();
+                                if (!TextUtils.isEmpty(input.toString())) {
+                                    TaskContent.newTask(input.toString());
+                                    tasksFragment.notifyDataSetChanged();
+                                }
                             }
                         }).show();
             }
@@ -252,14 +269,44 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onLongClick(RecordInfo item) {
-        Log.e("lcy onLongClick", item.toString());
+    public void onLongClick(List<RecordInfo> records, int position) {
+        Log.e("lcy onLongClick", records.get(position).toString());
     }
 
     @Override
-    public void onClick(RecordInfo item) {
-        Log.e("lcy onClick", item.toString());
+    public void onClick(final List<RecordInfo> records, final int position) {
+        final int taskId = records.get(position).getTask().getId();
+        new MaterialDialog.Builder(this)
+                .title(R.string.example_title)
+                .positiveText(R.string.allow)
+                .negativeText(R.string.deny)
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        Snackbar.make(fab, "继续加油！ヾ(◍°∇°◍)ﾉﾞ ", Snackbar.LENGTH_SHORT)
+                                .setAction("Action", null).show();
+                    }
+                })
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        CalculateUtil calculateUtil = new CalculateUtil(new Date().getTime());
+                        for (int i = position; i < records.size(); i++) {
+                            RecordInfo item = records.get(i);
+                            if (item.getTask().getId() == taskId) {
+                                if (i == position) item.setDone(true);
+                                item.setPlandate(calculateUtil.getDate(item.getNo(), position));
+                                new RecordDao(EApplication.getContext()).update(item);
+                            }
+                        }
+                        Snackbar.make(fab, "୧(๑•̀◡•́๑)૭ ", Snackbar.LENGTH_SHORT)
+                                .setAction("Action", null).show();
+                        tasksFragment.notifyDataSetChanged();
+                    }
+                })
+                .show();
     }
+
 
     @Override
     public void showResult(YouDaoBean youDaoBean) {
