@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         activity = this;
         fManager = getSupportFragmentManager();
+        intent = new Intent(this, ListenClipboardService.class);
+        askForPermission();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -174,7 +176,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void stopService() {
-        stopService(intent);
+        if (clipboardService != null){
+            unbindService(mConnection);
+            stopService(intent);
+        }
     }
 
     @Override
@@ -227,15 +232,13 @@ public class MainActivity extends AppCompatActivity
             tasksFragment = TasksFragment.newInstance(10);
             fManager.beginTransaction().replace(R.id.content_frame, tasksFragment).commit();
         } else if (id == R.id.nav_translate) {
-            if (intent == null) {
-                askForPermission();
-                intent = new Intent(this, ListenClipboardService.class);
-                startService(intent);
-                bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-            }
             translateFragment = TranslateFragment.newInstance("aaaa", "bbbb");
             fManager.beginTransaction().replace(R.id.content_frame, translateFragment).commit();
             fab.setVisibility(View.GONE);
+            if (intent != null) {
+                startService(intent);
+                bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+            }
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

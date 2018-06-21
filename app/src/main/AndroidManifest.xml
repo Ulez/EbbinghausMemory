@@ -24,8 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.view.TranslateActivity"></activity>
-
         <service
             android:name=".mvp.ListenClipboardService"
             android:enabled="true"

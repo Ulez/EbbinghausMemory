@@ -122,6 +122,10 @@ public class Utils {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 
+    public static boolean isO() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
+    }
+
     public static boolean compareTime(long currentTime) {
         long deltaTime = currentTime - lastTime;
         lastTime = currentTime;

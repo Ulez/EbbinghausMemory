@@ -28,6 +28,7 @@ import comulez.github.ebbinghausmemory.utils.Constant;
 import comulez.github.ebbinghausmemory.utils.Utils;
 import comulez.github.ebbinghausmemory.widget.TipView;
 
+import static android.os.Build.VERSION_CODES.M;
 import static comulez.github.ebbinghausmemory.utils.Constant.showPop;
 
 
@@ -103,15 +104,14 @@ public class ListenClipboardService extends MvpBaseService<ITranslateView, Trans
 
     @Override
     public void showResult(YouDaoBean youDaoBean) {
-        Log.e(TAG, "显示结果  =" + youDaoBean.toString());
-        Log.e(TAG, "显示悬浮窗：=" + Utils.getBoolean(showPop, true));
+        Log.i(TAG, "service showResult");
         if (attachedAct()) {
             activity.get().showResult(youDaoBean);
         }
         if (!Utils.getBoolean(showPop, true)) {
             return;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= M) {
             if (!Settings.canDrawOverlays(this)) {
                 Utils.t(youDaoBean.getTranslation().get(0));
                 return;
@@ -126,10 +126,8 @@ public class ListenClipboardService extends MvpBaseService<ITranslateView, Trans
             tipView.update(youDaoBean);
             if (tipView.getParent() != null)
                 handler.removeCallbacksAndMessages(null);
-            else {
-                mWindowManager.removeView(tipView);
+            else
                 mWindowManager.addView(tipView, getPopViewParams());
-            }
         } catch (IllegalStateException e) {
             e.printStackTrace();
         }
@@ -163,6 +161,9 @@ public class ListenClipboardService extends MvpBaseService<ITranslateView, Trans
 
         int flags = 0;
         int type = WindowManager.LayoutParams.TYPE_PHONE;
+        if (Utils.isO()) {
+            type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        }
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(w, h, type, flags, PixelFormat.TRANSLUCENT);
         layoutParams.gravity = Gravity.TOP;
         layoutParams.format = PixelFormat.RGBA_8888;
@@ -184,13 +185,18 @@ public class ListenClipboardService extends MvpBaseService<ITranslateView, Trans
             @Override
             public void onPrimaryClipChanged() {
                 if (Utils.compareTime(System.currentTimeMillis())) {
-                    Log.i(TAG, "onPrimaryClipChanged");
+//                    Log.i(TAG, "onPrimaryClipChanged");
                     try {
-                        String q = clipboard.getPrimaryClip().getItemAt(0).getText().toString();
-                        if (TextUtils.isEmpty(q)) {
-                            Utils.t(R.string.cant);
-                            return;
+                        CharSequence charSequence = clipboard.getPrimaryClip().getItemAt(0).getText();
+//                        Log.e("lcy","getItem="+clipboard.getPrimaryClip().getItemAt(0).toString());
+                        if (TextUtils.isEmpty(charSequence)) {
+                            charSequence = clipboard.getPrimaryClip().getItemAt(0).coerceToText(ListenClipboardService.this);
+                            if (TextUtils.isEmpty(charSequence)) {
+                                Utils.t(R.string.cant);
+                                return;
+                            }
                         }
+                        String q = charSequence.toString();
                         translate(q, "auto", "zh_CHS", Constant.appkey, 2, Utils.md5(Constant.appkey + q + 2 + Constant.miyao));
                     } catch (Exception e) {
                         Utils.t(R.string.cant);
@@ -203,9 +209,8 @@ public class ListenClipboardService extends MvpBaseService<ITranslateView, Trans
     }
 
     public void translate(String q, String from, String to, String appKey, int salt, String sign) {
-        Log.e(TAG, "translate");
-        if (Utils.compareTime(System.currentTimeMillis()))
-            mPresenter.translate(q, from, to, appKey, salt, sign);
+        Log.i(TAG, "translate");
+        mPresenter.translate(q, from, to, appKey, salt, sign);
     }
 
     @Override
