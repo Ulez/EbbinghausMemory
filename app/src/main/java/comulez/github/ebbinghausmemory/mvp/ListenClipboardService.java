@@ -106,7 +106,8 @@ public class ListenClipboardService extends MvpBaseService<ITranslateView, Trans
 
     @Override
     public void showResult(YouDaoBean youDaoBean) {
-        Log.i(TAG, "service showResult");
+        cancelHide();
+//        Log.i(TAG, "service showResult");
         if (attachedAct()) {
             activity.get().showResult(youDaoBean);
         }
@@ -197,9 +198,9 @@ public class ListenClipboardService extends MvpBaseService<ITranslateView, Trans
                                 String cc = clipboard.getPrimaryClip().getItemAt(0).getHtmlText();
                                 Matcher m = Pattern.compile("<.*>(.*)<.*>").matcher(cc);
                                 if (m.find()) {
-                                    charSequence=m.group(1);
+                                    charSequence = m.group(1);
                                 }
-                                if (TextUtils.isEmpty(charSequence)){
+                                if (TextUtils.isEmpty(charSequence)) {
                                     Utils.t(R.string.cant);
                                     return;
                                 }
