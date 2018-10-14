@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import comulez.github.ebbinghausmemory.MainActivity;
@@ -18,6 +20,7 @@ import comulez.github.ebbinghausmemory.R;
 import comulez.github.ebbinghausmemory.beans.RecordInfo;
 import comulez.github.ebbinghausmemory.beans.TaskContent;
 import comulez.github.ebbinghausmemory.dao.RecordDao;
+import comulez.github.ebbinghausmemory.utils.CalculateUtil;
 import comulez.github.ebbinghausmemory.utils.Utils;
 
 
@@ -86,7 +89,14 @@ public class TasksFragment extends Fragment {
     public void notifyDataSetChanged() {
         RecordDao recordDao = new RecordDao(getActivity());
         List<RecordInfo> records = recordDao.selectAllByPlanDate();
-        adapter.setData(records);
+        List<RecordInfo> results = new ArrayList<>();
+        Date now = new Date();
+        for (int i = 0; i < records.size(); i++) {
+            if (!records.get(i).done && CalculateUtil.in7days(records.get(i).plandate, now)) {
+                results.add(records.get(i));
+            }
+        }
+        adapter.setData(results);
         adapter.notifyDataSetChanged();
     }
 
@@ -121,6 +131,7 @@ public class TasksFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onLongClick(List<RecordInfo> records, int position);
+
         void onClick(List<RecordInfo> records, int position);
     }
 }

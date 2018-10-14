@@ -2,6 +2,7 @@ package comulez.github.ebbinghausmemory.utils;
 
 import android.util.Log;
 
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -49,5 +50,17 @@ public class CalculateUtil {
                 break;
         }
         return new Date(currentTimeMillis);
+    }
+
+    public static boolean in7days(Date d1, Date d2) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(d1);
+        long begin = calendar.getTimeInMillis();
+        calendar.setTime(d2);
+        long end = calendar.getTimeInMillis();
+        long totalM = end - begin;
+        if (Math.abs(totalM) < 7 * day)
+            return true;
+        return false;
     }
 }
