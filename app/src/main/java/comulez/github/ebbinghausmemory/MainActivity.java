@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
                                 if (!TextUtils.isEmpty(input.toString())) {
-                                    TaskContent.newTask(input.toString());
+                                    TaskContent.oldTask(input.toString());
                                     tasksFragment.notifyDataSetChanged();
                                 }
                             }
@@ -216,6 +216,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            tasksFragment.setShow7Days(!tasksFragment.getShow7Days());
+            tasksFragment.notifyDataSetChanged();
             return true;
         }
 

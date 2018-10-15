@@ -34,7 +34,7 @@ import comulez.github.ebbinghausmemory.utils.Utils;
  * Use the {@link TranslateFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TranslateFragment extends Fragment implements ITranslateView  {
+public class TranslateFragment extends Fragment implements ITranslateView {
     private static final String TAG = "TranslateFragment";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -107,9 +107,9 @@ public class TranslateFragment extends Fragment implements ITranslateView  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_translate, container, false);
+        View view = inflater.inflate(R.layout.fragment_translate, container, false);
         Log.e(TAG, "tasksFragment,onCreateView");
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         setTransType();
         etCb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,10 +144,10 @@ public class TranslateFragment extends Fragment implements ITranslateView  {
     }
 
     private void setTransType() {
-        if(Utils.getBoolean(Constant.youdao, true)){
+        if (Utils.getBoolean(Constant.youdao, true)) {
             etCb.setChecked(true);
             etCb.setText("有道翻译");
-        }else {
+        } else {
             etCb.setChecked(true);
             etCb.setText("百度翻译");
         }
@@ -188,7 +188,7 @@ public class TranslateFragment extends Fragment implements ITranslateView  {
         try {
             if (youDaoBean != null) {
                 resetText();
-                if(Utils.getBoolean(Constant.youdao, true)){
+                if (Utils.getBoolean(Constant.youdao, true)) {
                     etWord.setText(youDaoBean.getQuery());
                     Utils.setEditTextSelectionToEnd(etWord);
                     tvResult.setText(youDaoBean.getTranslation().get(0));
@@ -196,7 +196,8 @@ public class TranslateFragment extends Fragment implements ITranslateView  {
                     if (!TextUtils.isEmpty(phonetic))
                         tvPronounce.setText("[" + phonetic + "]");
                     tvExplains.setText(Utils.getALl(youDaoBean.getBasic().getExplains(), youDaoBean.getWeb()));
-                }{
+                }
+                {
                     Utils.setEditTextSelectionToEnd(etWord);
                     tvResult.setText(youDaoBean.getTrans_result().get(0).getDst());
                 }
@@ -223,12 +224,12 @@ public class TranslateFragment extends Fragment implements ITranslateView  {
                 break;
             case R.id.iv_trans:
                 String q = etWord.getText().toString();
-                Log.e(TAG,"onClick translate");
+                Log.e(TAG, "onClick translate");
                 mListener.translate(q, "auto", "zh_CHS", Constant.appkey, 2, Utils.md5(Constant.appkey + q + 2 + Constant.miyao));
                 break;
             case R.id.button:
                 mListener.stopService();
-                ((MainActivity)mListener).finish();
+                ((MainActivity) mListener).finish();
                 break;
             case R.id.button_per:
                 mListener.requestPermission();
@@ -242,7 +243,9 @@ public class TranslateFragment extends Fragment implements ITranslateView  {
 
     public interface OnFragmentInteractionListener {
         void translate(String q, String from, String to, String appKey, int salt, String sign);
+
         void requestPermission();
+
         void stopService();
     }
 }

@@ -79,25 +79,43 @@ public class TasksFragment extends Fragment {
             recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 //            TaskContent content = new TaskContent("任务1");
             RecordDao recordDao = new RecordDao(getActivity());
-            List<RecordInfo> records = recordDao.selectAllByPlanDate();
+            List<RecordInfo> records = getRecordInfos(recordDao.selectAllByPlanDate());
             adapter = new MyItemRecyclerViewAdapter(records, mListener);
             recyclerView.setAdapter(adapter);
         }
         return view;
     }
 
+    private boolean show7Days = true;
+
+    public void setShow7Days(boolean f) {
+        show7Days = f;
+    }
+
+    public boolean getShow7Days() {
+        return show7Days;
+    }
+
     public void notifyDataSetChanged() {
         RecordDao recordDao = new RecordDao(getActivity());
-        List<RecordInfo> records = recordDao.selectAllByPlanDate();
-        List<RecordInfo> results = new ArrayList<>();
-        Date now = new Date();
-        for (int i = 0; i < records.size(); i++) {
-            if (!records.get(i).done && CalculateUtil.in7days(records.get(i).plandate, now)) {
-                results.add(records.get(i));
-            }
-        }
+        List<RecordInfo> results = getRecordInfos(recordDao.selectAllByPlanDate());
         adapter.setData(results);
         adapter.notifyDataSetChanged();
+    }
+
+    private List<RecordInfo> getRecordInfos(List<RecordInfo> records) {
+        List<RecordInfo> results = new ArrayList<>();
+        if (show7Days) {
+            Date now = new Date();
+            for (int i = 0; i < records.size(); i++) {
+                if (!records.get(i).done && CalculateUtil.in7days(records.get(i).plandate, now)) {
+                    results.add(records.get(i));
+                }
+            }
+        } else {
+            results = records;
+        }
+        return results;
     }
 
 

@@ -43,7 +43,7 @@ public class TaskContent {
                 start = 0;
                 break;
             case TASK_TYPE_OLD:
-                start = 4;
+                start = 3;
                 break;
         }
         for (int i = start; i <= COUNT; i++) {
