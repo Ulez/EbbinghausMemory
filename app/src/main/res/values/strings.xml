@@ -5,7 +5,10 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">切换</string>
+    <string name="action_7day">七天</string>
+    <string name="action_3day">三天</string>
+    <string name="action_today">今天</string>
+    <string name="action_all">所有</string>
 
     <string name="loading">查询中...</string>
     <string name="inputX">输入要翻译的内容</string>

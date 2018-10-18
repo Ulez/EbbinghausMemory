@@ -52,14 +52,14 @@ public class CalculateUtil {
         return new Date(currentTimeMillis);
     }
 
-    public static boolean in7days(Date d1, Date d2) {
+    public static boolean inDays(Date d1, Date d2, int duration) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(d1);
         long begin = calendar.getTimeInMillis();
         calendar.setTime(d2);
         long end = calendar.getTimeInMillis();
         long totalM = end - begin;
-        if (Math.abs(totalM) < 7 * day)
+        if (Math.abs(totalM) < duration * day)
             return true;
         return false;
     }

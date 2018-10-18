@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +14,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import comulez.github.ebbinghausmemory.MainActivity;
 import comulez.github.ebbinghausmemory.R;
 import comulez.github.ebbinghausmemory.beans.RecordInfo;
-import comulez.github.ebbinghausmemory.beans.TaskContent;
 import comulez.github.ebbinghausmemory.dao.RecordDao;
 import comulez.github.ebbinghausmemory.utils.CalculateUtil;
-import comulez.github.ebbinghausmemory.utils.Utils;
 
 
 /**
@@ -86,14 +82,10 @@ public class TasksFragment extends Fragment {
         return view;
     }
 
-    private boolean show7Days = true;
+    private int showDays = 1;
 
-    public void setShow7Days(boolean f) {
-        show7Days = f;
-    }
-
-    public boolean getShow7Days() {
-        return show7Days;
+    public void setShowDays(int f) {
+        showDays = f;
     }
 
     public void notifyDataSetChanged() {
@@ -105,10 +97,10 @@ public class TasksFragment extends Fragment {
 
     private List<RecordInfo> getRecordInfos(List<RecordInfo> records) {
         List<RecordInfo> results = new ArrayList<>();
-        if (show7Days) {
+        if (showDays > 0) {
             Date now = new Date();
             for (int i = 0; i < records.size(); i++) {
-                if (!records.get(i).done && CalculateUtil.in7days(records.get(i).plandate, now)) {
+                if (!records.get(i).done && CalculateUtil.inDays(records.get(i).plandate, now, showDays)) {
                     results.add(records.get(i));
                 }
             }
