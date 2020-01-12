@@ -1,6 +1,5 @@
 package fun.learnlife.translate;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,30 +26,22 @@ import fun.learnlife.translate.view.TranslateFragment;
 
 public class MainActivity extends AppCompatActivity
         implements TranslateFragment.OnFragmentInteractionListener, ITranslateView {
-
-    private static final int minute = 1000 * 60;//分钟换毫秒；
-    private static final int hour = 60 * 1000 * 60;//小时换毫秒；
-    private static final int day = 24 * 1000 * 60 * 60;//天换毫秒；
-
     private static final String TAG = "MainActivity";
     private FragmentManager fManager;
     private Intent intent;
     private int OVERLAY_PERMISSION_REQ_CODE = 45;
     private TranslateFragment translateFragment;
     int i = 0;
-    private Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        activity = this;
+        intent = new Intent(this, ListenClipboardService.class);
         fManager = getSupportFragmentManager();
         askForPermission();
-
         translateFragment = TranslateFragment.newInstance("aaaa", "bbbb");
         fManager.beginTransaction().replace(R.id.content_frame, translateFragment).commit();
-        intent = new Intent(this, ListenClipboardService.class);
         if (intent != null) {
             startService(intent);
             bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
