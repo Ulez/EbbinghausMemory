@@ -5,7 +5,9 @@ android {
 
 
     defaultConfig {
-        applicationId "fun.learnlife.memory"
+        if (isRunAlone.toBoolean()) {
+            applicationId "fun.learnlife.memory"
+        }
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
@@ -13,7 +15,15 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-
+    sourceSets {
+        main {
+            if (isRunAlone.toBoolean()) {
+                manifest.srcFile 'src/main/manifest/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false

@@ -4,9 +4,12 @@ import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import fun.learnlife.base.BaseApp;
 
 /**
  * Created by Ulez on 2017/7/25.
@@ -14,29 +17,27 @@ import java.util.List;
  */
 
 
-public class EApplication extends Application {
+public class EApplication extends BaseApp {
     private static Context context;
 
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
+        initModuleApp(this);
+        initModuleData(this);
     }
 
     public static Context getContext() {
         return context;
     }
 
-    //检查是否存在此包名的应用程序
-    public static boolean isAppInstalled(String packageName) {
-        final PackageManager packageManager = context.getPackageManager();
-        List<PackageInfo> packageInfo = packageManager.getInstalledPackages(0);
-        List<String> pName = new ArrayList<String>();
-        if (packageInfo != null) {
-            for (int i = 0; i < packageInfo.size(); i++) {
-                String pn = packageInfo.get(i).packageName;
-                pName.add(pn);
-            }
-        }
-        return pName.contains(packageName);
+    @Override
+    public void initModuleApp(Application application) {
+        //初始化Memory组件的服务，对外提供；
+    }
+
+    @Override
+    public void initModuleData(Application application) {
+
     }
 }
