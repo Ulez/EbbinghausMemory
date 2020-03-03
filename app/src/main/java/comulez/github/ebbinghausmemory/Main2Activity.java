@@ -30,7 +30,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.tv_translate:
                 Toast.makeText(this,"transtate",Toast.LENGTH_LONG).show();
-                ARouter.getInstance().build("/account/translate").navigation();
+                ARouter.getInstance().build("/translate/translate").navigation();
                 break;
         }
     }

@@ -256,6 +256,6 @@ public class ListenClipboardService extends MvpBaseService<ITranslateView, Trans
 
     @Override
     protected TranslatePresenter createPresenter() {
-        return new TranslatePresenter();
+        return new TranslatePresenter(this);
     }
 }

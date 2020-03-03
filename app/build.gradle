@@ -8,7 +8,6 @@ android {
         targetSdkVersion target_sdt_version.toInteger()
         versionCode 1
         versionName "1.0"
-        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
@@ -28,4 +27,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
     implementation project(':base')
+//    runtimeOnly project(':memory')
+//    runtimeOnly project(':translate')
+    runtimeOnly project(path:':memory', configuration: 'default')
+    runtimeOnly project(path:':translate', configuration: 'default')
+
 }

@@ -26,7 +26,7 @@ import fun.learnlife.base.utils.Utils;
 import fun.learnlife.translate.view.ITranslateView;
 import fun.learnlife.translate.view.TranslateFragment;
 
-@Route(path = "/account/translate")
+@Route(path = "/translate/translate")
 public class MainActivity extends AppCompatActivity
         implements TranslateFragment.OnFragmentInteractionListener, ITranslateView {
     private static final String TAG = "MainActivity";

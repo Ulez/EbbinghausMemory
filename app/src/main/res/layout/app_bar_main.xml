@@ -29,7 +29,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:fabSize="mini"
-        app:layout_behavior="comulez.github.ebbinghausmemory.widget.ScrollAwareFABBehavior"
+        app:layout_behavior="fun.learnlife.memory.ScrollAwareFABBehavior"
         app:srcCompat="@drawable/addtask" />
 
 </android.support.design.widget.CoordinatorLayout>

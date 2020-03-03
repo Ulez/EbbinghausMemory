@@ -82,11 +82,7 @@ public class TipView extends LinearLayout {
             youDao = youDaoBean;
             resetText();
             tvWord.setText(youDaoBean.getQuery());
-            if(Utils.getBoolean(Constant.youdao, true)){
-                tvResult.setText(youDaoBean.getTranslation().get(0));
-            }else {
-                tvResult.setText(youDaoBean.getTrans_result().get(0).getDst());
-            }
+            tvResult.setText(youDaoBean.getTranslation().get(0));
             if (!TextUtils.isEmpty(youDaoBean.getBasic().getPhonetic()))
                 tvPronounce.setText("[" + youDaoBean.getBasic().getPhonetic() + "]");
             else tvPronounce.setText("");

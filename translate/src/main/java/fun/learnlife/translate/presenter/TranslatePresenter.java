@@ -1,6 +1,7 @@
 package fun.learnlife.translate.presenter;
 
 
+import android.content.Context;
 import android.util.Log;
 
 import fun.learnlife.base.beans.YouDaoBean;
@@ -18,8 +19,8 @@ import fun.learnlife.translate.view.ITranslateView;
 public class TranslatePresenter extends BasePresenter<ITranslateView> {
     private final TranslateModelIml modelIml;
 
-    public TranslatePresenter() {
-        modelIml = new TranslateModelIml();
+    public TranslatePresenter(Context context) {
+        modelIml = new TranslateModelIml(context);
     }
 
     public void translate(String q, String from, String to, String appKey, int salt, String sign) {

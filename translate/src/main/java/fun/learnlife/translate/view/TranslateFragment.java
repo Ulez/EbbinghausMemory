@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import fun.learnlife.base.beans.YouDaoBean;
 import fun.learnlife.base.utils.Constant;
+import fun.learnlife.base.utils.SpUtils;
 import fun.learnlife.base.utils.Utils;
 import fun.learnlife.translate.MainActivity;
 import fun.learnlife.translate.R;
@@ -101,7 +102,7 @@ public class TranslateFragment extends Fragment implements ITranslateView, View.
         etCb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.putT(Constant.youdao, !Utils.getBoolean(Constant.youdao, true));
+                SpUtils.getInstance(getContext()).putT(Constant.youdao, !SpUtils.getInstance(getContext()).getBoolean(Constant.youdao, true));
                 setTransType();
             }
         });
@@ -131,7 +132,7 @@ public class TranslateFragment extends Fragment implements ITranslateView, View.
     }
 
     private void setTransType() {
-        if (Utils.getBoolean(Constant.youdao, true)) {
+        if (SpUtils.getInstance(getContext()).getBoolean(Constant.youdao, true)) {
             etCb.setChecked(true);
             etCb.setText("有道翻译");
         } else {
@@ -160,13 +161,13 @@ public class TranslateFragment extends Fragment implements ITranslateView, View.
 
     @Override
     public void onResume() {
-        Utils.putT(Constant.showPop, false);
+        SpUtils.getInstance(getContext()).putT(Constant.showPop, false);
         super.onResume();
     }
 
     @Override
     public void onPause() {
-        Utils.putT(Constant.showPop, true);
+        SpUtils.getInstance(getContext()).putT(Constant.showPop, true);
         super.onPause();
     }
 
@@ -180,7 +181,7 @@ public class TranslateFragment extends Fragment implements ITranslateView, View.
         try {
             if (youDaoBean != null) {
                 resetText();
-                if (Utils.getBoolean(Constant.youdao, true)) {
+                if (SpUtils.getInstance(getContext()).getBoolean(Constant.youdao, true)) {
                     etWord.setText(youDaoBean.getQuery());
                     Utils.setEditTextSelectionToEnd(etWord);
                     tvResult.setText(youDaoBean.getTranslation().get(0));
@@ -210,25 +211,20 @@ public class TranslateFragment extends Fragment implements ITranslateView, View.
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.et_word:
-                break;
-            case R.id.iv_trans:
-                String q = etWord.getText().toString();
-                Log.e(TAG, "onClick translate");
-                mListener.translate(q, "auto", "zh_CHS", Constant.appkey, 2, Utils.md5(Constant.appkey + q + 2 + Constant.miyao));
-                break;
-            case R.id.button:
-                mListener.stopService();
-                ((MainActivity) mListener).finish();
-                break;
-            case R.id.button_per:
-                mListener.requestPermission();
-                break;
-            case R.id.button_clean:
-                etWord.setText("");
-                resetText();
-                break;
+        int id = v.getId();
+        if (id == R.id.et_word) {
+        } else if (id == R.id.iv_trans) {
+            String q = etWord.getText().toString();
+            Log.e(TAG, "onClick translate");
+            mListener.translate(q, "auto", "zh_CHS", Constant.appkey, 2, Utils.md5(Constant.appkey + q + 2 + Constant.miyao));
+        } else if (id == R.id.button) {
+            mListener.stopService();
+            ((MainActivity) mListener).finish();
+        } else if (id == R.id.button_per) {
+            mListener.requestPermission();
+        } else if (id == R.id.button_clean) {
+            etWord.setText("");
+            resetText();
         }
     }
 
