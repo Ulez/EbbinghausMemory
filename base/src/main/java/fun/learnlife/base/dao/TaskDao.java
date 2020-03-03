@@ -7,7 +7,6 @@ import com.j256.ormlite.dao.Dao;
 import java.sql.SQLException;
 import java.util.List;
 
-import fun.learnlife.EApplication;
 import fun.learnlife.base.beans.TaskBean;
 import fun.learnlife.base.utils.DatabaseHelper;
 
@@ -47,7 +46,7 @@ public class TaskDao {
     public void delete(TaskBean data) {
         try {
             dao.delete(data);
-            new RecordDao(EApplication.getContext()).deleteByTask(data);
+            new RecordDao(context).deleteByTask(data);
         } catch (SQLException e) {
             e.printStackTrace();
         }

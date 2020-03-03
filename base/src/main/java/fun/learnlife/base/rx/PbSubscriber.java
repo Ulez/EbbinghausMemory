@@ -1,10 +1,12 @@
 package fun.learnlife.base.rx;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import fun.learnlife.base.exception.ApiExceptionFactory;
+import fun.learnlife.base.utils.SpUtils;
 import fun.learnlife.base.utils.Utils;
 import rx.Subscriber;
 
@@ -17,15 +19,17 @@ import rx.Subscriber;
 public abstract class PbSubscriber<T> extends Subscriber<T> {
 
     private ProgressBar progressBar;
+    private Context context;
 
-    protected PbSubscriber() {
-        this(null);
+    protected PbSubscriber(Context context) {
+        this(null,context);
     }
 
-    protected PbSubscriber(View progressBar) {
+    protected PbSubscriber(View progressBar,Context context) {
         super(null, false);
         if (progressBar instanceof ProgressBar)
             this.progressBar = (ProgressBar) progressBar;
+        this.context = context.getApplicationContext();
     }
 
     @Override
@@ -41,7 +45,7 @@ public abstract class PbSubscriber<T> extends Subscriber<T> {
         Log.i(TAG, e.toString());
         if (progressBar != null)
             progressBar.setVisibility(View.GONE);
-        Utils.t(ApiExceptionFactory.getApiException(e).getDisplayMessage());
+        SpUtils.getInstance(context).t(ApiExceptionFactory.getApiException(e,context).getDisplayMessage());
     }
 
     @Override

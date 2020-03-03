@@ -1,12 +1,13 @@
 package fun.learnlife.base.beans;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fun.learnlife.EApplication;
 import fun.learnlife.base.dao.RecordDao;
 import fun.learnlife.base.dao.TaskDao;
 import fun.learnlife.base.utils.CalculateUtil;
@@ -31,11 +32,13 @@ public class TaskContent {
     public static final Map<Integer, RecordInfo> ITEM_MAP = new HashMap<Integer, RecordInfo>();
     private static final int COUNT = 10;
     private final CalculateUtil calculateUtil;
+    private Context context;
 
-    private TaskContent(String title, int task_type) {
+    private TaskContent(String title, int task_type,Context context) {
+        this.context = context.getApplicationContext();
         calculateUtil = new CalculateUtil(System.currentTimeMillis());
         task = new TaskBean(title, '1', new Date(), title);
-        new TaskDao(EApplication.getContext()).insert(task);
+        new TaskDao(context).insert(task);
         int start = 0;
         switch (task_type) {
             case TASK_TYPE_NEW:
@@ -50,12 +53,12 @@ public class TaskContent {
         }
     }
 
-    public static TaskContent newTask(String title) {
-        return new TaskContent(title, TASK_TYPE_NEW);
+    public static TaskContent newTask(String title,Context context) {
+        return new TaskContent(title, TASK_TYPE_NEW,context);
     }
 
-    public static TaskContent oldTask(String title) {
-        return new TaskContent(title, TASK_TYPE_OLD);
+    public static TaskContent oldTask(String title,Context context) {
+        return new TaskContent(title, TASK_TYPE_OLD,context);
     }
 
 
@@ -71,12 +74,12 @@ public class TaskContent {
             case TASK_TYPE_OLD:
                 date = calculateUtil.getDate(position, 4);
                 recordInfo = new RecordInfo(position, title, date, task, position);
-                new RecordDao(EApplication.getContext()).insert(recordInfo);
+                new RecordDao(context).insert(recordInfo);
                 return recordInfo;
             default:
                 date = calculateUtil.getDate(position, 0);
                 recordInfo = new RecordInfo(position, title, date, task, position);
-                new RecordDao(EApplication.getContext()).insert(recordInfo);
+                new RecordDao(context).insert(recordInfo);
                 return recordInfo;
         }
     }

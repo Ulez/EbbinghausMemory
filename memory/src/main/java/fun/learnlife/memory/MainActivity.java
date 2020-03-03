@@ -20,17 +20,17 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.alibaba.android.arouter.facade.annotation.Route;
 
 import java.util.Date;
 import java.util.List;
 
-import fun.learnlife.EApplication;
 import fun.learnlife.base.beans.RecordInfo;
 import fun.learnlife.base.beans.TaskContent;
 import fun.learnlife.base.dao.RecordDao;
 import fun.learnlife.base.dao.TaskDao;
 import fun.learnlife.base.utils.CalculateUtil;
-
+@Route(path = "/account/time")
 public class MainActivity extends AppCompatActivity implements TasksFragment.OnListFragmentInteractionListener{
 
     private static final String TAG = "MainActivity";
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements TasksFragment.OnL
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
                                 if (!TextUtils.isEmpty(input.toString())) {
-                                    TaskContent.oldTask(input.toString());
+                                    TaskContent.oldTask(input.toString(),MainActivity.this);
                                     tasksFragment.notifyDataSetChanged();
                                 }
                             }

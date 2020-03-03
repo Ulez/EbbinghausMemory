@@ -10,6 +10,11 @@ android {
         versionName "1.0"
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
     }
     buildTypes {
         release {
@@ -21,6 +26,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-//    annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
     implementation project(':base')
 }

@@ -1,10 +1,13 @@
 package fun.learnlife.translate.model;
 
+import android.content.Context;
+
 import fun.learnlife.base.beans.YouDaoBean;
 import fun.learnlife.base.exception.ApiExceptionFactory;
 import fun.learnlife.base.net.TRRetrofit;
 import fun.learnlife.base.rx.PbSubscriber;
 import fun.learnlife.base.utils.Constant;
+import fun.learnlife.base.utils.SpUtils;
 import fun.learnlife.base.utils.Utils;
 import fun.learnlife.translate.DataListener;
 import rx.android.schedulers.AndroidSchedulers;
@@ -18,18 +21,23 @@ import rx.schedulers.Schedulers;
 
 
 public class TranslateModelIml implements ITranslateModel {
+    private Context context;
+    public TranslateModelIml(Context context) {
+        this.context = context.getApplicationContext();
+    }
+
     @Override
     public void translate(String q, String from, String to, String appKey, int salt, String sign, final DataListener listener) {
-        if (Utils.getBoolean(Constant.youdao, true)) {
+        if (SpUtils.getInstance(context).getBoolean(Constant.youdao, true)) {
             TRRetrofit.getInstance().getmPRService().getYoudaoTras(q, from, to, appKey, salt, sign)
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new PbSubscriber<YouDaoBean>() {
+                    .subscribe(new PbSubscriber<YouDaoBean>(context) {
                         @Override
                         public void onError(Throwable e) {
                             super.onError(e);
-                            listener.onError(ApiExceptionFactory.getApiException(e).getDisplayMessage());
+                            listener.onError(ApiExceptionFactory.getApiException(e,context).getDisplayMessage());
                         }
 
                         @Override
@@ -48,11 +56,11 @@ public class TranslateModelIml implements ITranslateModel {
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new PbSubscriber<YouDaoBean>() {
+                    .subscribe(new PbSubscriber<YouDaoBean>(context) {
                         @Override
                         public void onError(Throwable e) {
                             super.onError(e);
-                            listener.onError(ApiExceptionFactory.getApiException(e).getDisplayMessage());
+                            listener.onError(ApiExceptionFactory.getApiException(e,context).getDisplayMessage());
                         }
 
                         @Override

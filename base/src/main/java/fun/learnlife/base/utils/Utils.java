@@ -15,7 +15,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 
-import fun.learnlife.EApplication;
 import fun.learnlife.base.beans.YouDaoBean;
 
 /**
@@ -25,7 +24,7 @@ import fun.learnlife.base.beans.YouDaoBean;
 
 public class Utils {
     private static long lastTime = 0;
-    private static SharedPreferences sp = EApplication.getContext().getSharedPreferences("permissions", Context.MODE_PRIVATE);
+
 
     /**
      * 生成32位MD5摘要
@@ -132,57 +131,11 @@ public class Utils {
         return deltaTime >= 500;
     }
 
-    public static void t(String m) {
-        Toast.makeText(EApplication.getContext(), m, Toast.LENGTH_SHORT).show();
-    }
-
-
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
-    public static void tL(String m) {
-        Toast.makeText(EApplication.getContext(), m, Toast.LENGTH_LONG).show();
-    }
-
-    public static void t(int sId) {
-        Toast.makeText(EApplication.getContext(), EApplication.getContext().getString(sId), Toast.LENGTH_LONG).show();
-    }
-
-    public static boolean hasOverlayPermission() {
-        return getBoolean(Constant.hasPermission, false);
-    }
-
-    public static String getString(String key, String defValue) {
-        return sp.getString(key, defValue);
-    }
-
-    public static void putT(String key, Object value) {
-        if (value instanceof String) {
-            sp.edit().putString(key, (String) value).commit();
-        } else if (value instanceof Boolean) {
-            sp.edit().putBoolean(key, (Boolean) value).commit();
-        } else if (value instanceof Integer) {
-            sp.edit().putInt(key, (Integer) value).commit();
-        }
-    }
-
-    public static boolean getBoolean(String key, boolean defValue) {
-        return sp.getBoolean(key, defValue);
-    }
-
-    public static int getInt(String key, int defValue) {
-        return sp.getInt(key, defValue);
-    }
-
-    public static void remove(String key) {
-        sp.edit().remove(key).commit();
-    }
-
-    public static void removeAll() {
-        sp.edit().clear().commit();
-    }
 
     public static String getALl(List<String> explains, List<YouDaoBean.WebBean> webBeanList) {
         if (explains == null || explains.size() <= 0)

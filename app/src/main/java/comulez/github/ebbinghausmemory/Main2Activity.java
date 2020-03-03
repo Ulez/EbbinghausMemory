@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+
 import fun.learnlife.base.utils.Utils;
 import okhttp3.internal.Util;
 
@@ -24,9 +26,11 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.tv_time:
                 Toast.makeText(this,"time",Toast.LENGTH_LONG).show();
+                ARouter.getInstance().build("/account/time").navigation();
                 break;
             case R.id.tv_translate:
                 Toast.makeText(this,"transtate",Toast.LENGTH_LONG).show();
+                ARouter.getInstance().build("/account/translate").navigation();
                 break;
         }
     }

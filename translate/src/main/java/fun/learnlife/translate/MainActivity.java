@@ -17,13 +17,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+
 import fun.learnlife.base.beans.YouDaoBean;
 import fun.learnlife.base.utils.Constant;
+import fun.learnlife.base.utils.SpUtils;
 import fun.learnlife.base.utils.Utils;
 import fun.learnlife.translate.view.ITranslateView;
 import fun.learnlife.translate.view.TranslateFragment;
 
-
+@Route(path = "/account/translate")
 public class MainActivity extends AppCompatActivity
         implements TranslateFragment.OnFragmentInteractionListener, ITranslateView {
     private static final String TAG = "MainActivity";
@@ -59,17 +62,17 @@ public class MainActivity extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
             if (!Settings.canDrawOverlays(this)) {
-                Utils.t("权限授予失败，无法开启悬浮窗");
+                SpUtils.getInstance(MainActivity.this).t("权限授予失败，无法开启悬浮窗");
             } else {
-                Utils.t("权限授予成功！");
-                Utils.putT(Constant.hasPermission, true);
+                SpUtils.getInstance(MainActivity.this).t("权限授予成功！");
+                SpUtils.getInstance(MainActivity.this).putT(Constant.hasPermission, true);
                 startService(intent);
             }
         }
     }
 
     private void askForPermission() {
-        if (Utils.isM() && !Utils.getBoolean(Constant.hasPermission, false)) {
+        if (Utils.isM() && !SpUtils.getInstance(MainActivity.this).getBoolean(Constant.hasPermission, false)) {
             new AlertDialog.Builder(this).setMessage(getString(R.string.tip1))
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
@@ -136,37 +139,37 @@ public class MainActivity extends AppCompatActivity
     }
     @Override
     public void onResume() {
-        Utils.putT(Constant.showPop, false);
+        SpUtils.getInstance(MainActivity.this).putT(Constant.showPop, false);
         super.onResume();
     }
 
     @Override
     public void onPause() {
-        Utils.putT(Constant.showPop, true);
+        SpUtils.getInstance(MainActivity.this).putT(Constant.showPop, true);
         super.onPause();
     }
 
     @Override
     public void showResult(YouDaoBean youDaoBean) {
-        if (!Utils.getBoolean(Constant.showPop, true))
+        if (!SpUtils.getInstance(MainActivity.this).getBoolean(Constant.showPop, true))
             translateFragment.showResult(youDaoBean);
     }
 
     @Override
     public void resetText() {
-        if (!Utils.getBoolean(Constant.showPop, true))
+        if (!SpUtils.getInstance(MainActivity.this).getBoolean(Constant.showPop, true))
             translateFragment.resetText();
     }
 
     @Override
     public void showLoading() {
-        if (!Utils.getBoolean(Constant.showPop, true))
+        if (!SpUtils.getInstance(MainActivity.this).getBoolean(Constant.showPop, true))
             translateFragment.showLoading();
     }
 
     @Override
     public void onError(String msg) {
-        if (!Utils.getBoolean(Constant.showPop, true))
+        if (!SpUtils.getInstance(MainActivity.this).getBoolean(Constant.showPop, true))
             translateFragment.onError(msg);
     }
 }

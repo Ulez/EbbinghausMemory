@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 import fun.learnlife.base.beans.YouDaoBean;
 import fun.learnlife.base.mvp.base.MvpBaseService;
 import fun.learnlife.base.utils.Constant;
+import fun.learnlife.base.utils.SpUtils;
 import fun.learnlife.base.utils.Utils;
 import fun.learnlife.translate.presenter.TranslatePresenter;
 import fun.learnlife.translate.view.ITranslateView;
@@ -110,12 +111,12 @@ public class ListenClipboardService extends MvpBaseService<ITranslateView, Trans
         if (attachedAct()) {
             activity.get().showResult(youDaoBean);
         }
-        if (!Utils.getBoolean(showPop, true)) {
+        if (!SpUtils.getInstance(ListenClipboardService.this).getBoolean(showPop, true)) {
             return;
         }
         if (Build.VERSION.SDK_INT >= M) {
             if (!Settings.canDrawOverlays(this)) {
-                Utils.t(youDaoBean.getTranslation().get(0));
+                SpUtils.getInstance(ListenClipboardService.this).t(youDaoBean.getTranslation().get(0));
                 return;
             }
         }
@@ -136,7 +137,7 @@ public class ListenClipboardService extends MvpBaseService<ITranslateView, Trans
         tipView.startWithAnim();
         Message msg = Message.obtain();
         msg.what = Constant.removePop;
-        handler.sendMessageDelayed(msg, Utils.getInt(Constant.SHOW_DURATION, 3000));
+        handler.sendMessageDelayed(msg, SpUtils.getInstance(ListenClipboardService.this).getInt(Constant.SHOW_DURATION, 3000));
     }
 
     @Override
@@ -200,7 +201,7 @@ public class ListenClipboardService extends MvpBaseService<ITranslateView, Trans
                                     charSequence = m.group(1);
                                 }
                                 if (TextUtils.isEmpty(charSequence)) {
-                                    Utils.t(R.string.cant);
+                                    SpUtils.getInstance(ListenClipboardService.this).t(R.string.cant);
                                     return;
                                 }
                             }
@@ -208,7 +209,7 @@ public class ListenClipboardService extends MvpBaseService<ITranslateView, Trans
                         String q = charSequence.toString();
                         translate(q, "auto", "zh_CHS", Constant.appkey, 2, Utils.md5(Constant.appkey + q + 2 + Constant.miyao));
                     } catch (Exception e) {
-                        Utils.t(R.string.cant);
+                        SpUtils.getInstance(ListenClipboardService.this).t(R.string.cant);
                         e.printStackTrace();
                     }
                 }
