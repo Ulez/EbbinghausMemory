@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion compile_sdk_version.toInteger()
 
 
     defaultConfig {
         if (isRunAlone.toBoolean()) {
             applicationId "fun.learnlife.memory"
         }
-        minSdkVersion 21
-        targetSdkVersion 28
+        minSdkVersion min_sdk_version.toInteger()
+        targetSdkVersion target_sdt_version.toInteger()
         versionCode 1
         versionName "1.0"
 
