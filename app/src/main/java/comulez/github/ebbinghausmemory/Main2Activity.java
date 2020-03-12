@@ -7,8 +7,6 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 
-import fun.learnlife.base.utils.Utils;
-import okhttp3.internal.Util;
 
 public class Main2Activity extends AppCompatActivity implements View.OnClickListener {
 

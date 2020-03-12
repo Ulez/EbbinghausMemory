@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -42,6 +43,8 @@ public class TransActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_tran);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("翻译组件");
         intent = new Intent(this, ListenClipboardService.class);
         fManager = getSupportFragmentManager();
         askForPermission();
@@ -133,12 +136,6 @@ public class TransActivity extends AppCompatActivity
             unbindService(mConnection);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
     @Override
     public void onResume() {
         SpUtils.getInstance(TransActivity.this).putT(Constant.showPop, false);

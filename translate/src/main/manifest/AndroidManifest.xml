@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
-        android:name="fun.learnlife.EApplication"
+        android:name=".TransApp"
         android:appComponentFactory=""
         tools:replace="android:appComponentFactory"
         android:allowBackup="true"
