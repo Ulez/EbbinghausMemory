@@ -41,7 +41,6 @@ public class TransActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_tran);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("翻译组件");
