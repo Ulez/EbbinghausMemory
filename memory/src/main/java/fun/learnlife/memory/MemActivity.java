@@ -37,7 +37,7 @@ public class MemActivity extends AppCompatActivity implements TasksFragment.OnLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_mem);
         activity = this;
         fManager = getSupportFragmentManager();
         fab = findViewById(R.id.fab);

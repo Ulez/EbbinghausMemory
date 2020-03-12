@@ -16,6 +16,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.Window;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 
@@ -39,7 +40,8 @@ public class TransActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_tran);
         intent = new Intent(this, ListenClipboardService.class);
         fManager = getSupportFragmentManager();
         askForPermission();
