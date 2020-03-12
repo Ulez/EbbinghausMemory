@@ -18,7 +18,7 @@ import fun.learnlife.base.beans.YouDaoBean;
 import fun.learnlife.base.utils.Constant;
 import fun.learnlife.base.utils.SpUtils;
 import fun.learnlife.base.utils.Utils;
-import fun.learnlife.translate.MainActivity;
+import fun.learnlife.translate.TransActivity;
 import fun.learnlife.translate.R;
 
 /**
@@ -219,7 +219,7 @@ public class TranslateFragment extends Fragment implements ITranslateView, View.
             mListener.translate(q, "auto", "zh_CHS", Constant.appkey, 2, Utils.md5(Constant.appkey + q + 2 + Constant.miyao));
         } else if (id == R.id.button) {
             mListener.stopService();
-            ((MainActivity) mListener).finish();
+            ((TransActivity) mListener).finish();
         } else if (id == R.id.button_per) {
             mListener.requestPermission();
         } else if (id == R.id.button_clean) {

@@ -1,8 +1,10 @@
 package fun.learnlife.base;
 
 import android.app.Application;
+import android.content.Context;
 
 public abstract class BaseApp extends Application {
+    protected static Context context;
     /**
      * Application 初始化
      */

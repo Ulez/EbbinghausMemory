@@ -1,13 +1,8 @@
 package fun.learnlife.memory;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.os.Build;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -31,9 +26,9 @@ import fun.learnlife.base.dao.RecordDao;
 import fun.learnlife.base.dao.TaskDao;
 import fun.learnlife.base.utils.CalculateUtil;
 @Route(path = "/account/time")
-public class MainActivity extends AppCompatActivity implements TasksFragment.OnListFragmentInteractionListener{
+public class MemActivity extends AppCompatActivity implements TasksFragment.OnListFragmentInteractionListener{
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "MemActivity";
     private FragmentManager fManager;
     private FloatingActionButton fab;
     private TasksFragment tasksFragment;
@@ -56,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements TasksFragment.OnL
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
                                 if (!TextUtils.isEmpty(input.toString())) {
-                                    TaskContent.oldTask(input.toString(),MainActivity.this);
+                                    TaskContent.oldTask(input.toString(), MemActivity.this);
                                     tasksFragment.notifyDataSetChanged();
                                 }
                             }
@@ -89,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements TasksFragment.OnL
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        new TaskDao(EApplication.getContext()).delete(records.get(position).getTask());
+                        new TaskDao(MemApp.getContext()).delete(records.get(position).getTask());
                         Snackbar.make(fab, "已删除！୧(๑•̀◡•́๑)૭ ", Snackbar.LENGTH_SHORT)
                                 .setAction("Action", null).show();
                         tasksFragment.notifyDataSetChanged();
@@ -155,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements TasksFragment.OnL
                             if (item.getTask().getId() == taskId) {
                                 if (i == position) item.setDone(true);
                                 item.setPlandate(calculateUtil.getDate(item.getNo(), records.get(position).getNo()));
-                                new RecordDao(EApplication.getContext()).update(item);
+                                new RecordDao(MemApp.getContext()).update(item);
                             }
                         }
                         Snackbar.make(fab, "୧(๑•̀◡•́๑)૭ ", Snackbar.LENGTH_SHORT)

@@ -27,9 +27,9 @@ import fun.learnlife.translate.view.ITranslateView;
 import fun.learnlife.translate.view.TranslateFragment;
 
 @Route(path = "/translate/translate")
-public class MainActivity extends AppCompatActivity
+public class TransActivity extends AppCompatActivity
         implements TranslateFragment.OnFragmentInteractionListener, ITranslateView {
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "TransActivity";
     private FragmentManager fManager;
     private Intent intent;
     private int OVERLAY_PERMISSION_REQ_CODE = 45;
@@ -62,17 +62,17 @@ public class MainActivity extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
             if (!Settings.canDrawOverlays(this)) {
-                SpUtils.getInstance(MainActivity.this).t("权限授予失败，无法开启悬浮窗");
+                SpUtils.getInstance(TransActivity.this).t("权限授予失败，无法开启悬浮窗");
             } else {
-                SpUtils.getInstance(MainActivity.this).t("权限授予成功！");
-                SpUtils.getInstance(MainActivity.this).putT(Constant.hasPermission, true);
+                SpUtils.getInstance(TransActivity.this).t("权限授予成功！");
+                SpUtils.getInstance(TransActivity.this).putT(Constant.hasPermission, true);
                 startService(intent);
             }
         }
     }
 
     private void askForPermission() {
-        if (Utils.isM() && !SpUtils.getInstance(MainActivity.this).getBoolean(Constant.hasPermission, false)) {
+        if (Utils.isM() && !SpUtils.getInstance(TransActivity.this).getBoolean(Constant.hasPermission, false)) {
             new AlertDialog.Builder(this).setMessage(getString(R.string.tip1))
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity
             Log.e("lcy", "onServiceConnected");
             ListenClipboardService.LocalBinder binder = (ListenClipboardService.LocalBinder) service;
             clipboardService = binder.getServiceInstance();
-            clipboardService.attachAct(MainActivity.this);
+            clipboardService.attachAct(TransActivity.this);
         }
 
         @Override
@@ -139,37 +139,37 @@ public class MainActivity extends AppCompatActivity
     }
     @Override
     public void onResume() {
-        SpUtils.getInstance(MainActivity.this).putT(Constant.showPop, false);
+        SpUtils.getInstance(TransActivity.this).putT(Constant.showPop, false);
         super.onResume();
     }
 
     @Override
     public void onPause() {
-        SpUtils.getInstance(MainActivity.this).putT(Constant.showPop, true);
+        SpUtils.getInstance(TransActivity.this).putT(Constant.showPop, true);
         super.onPause();
     }
 
     @Override
     public void showResult(YouDaoBean youDaoBean) {
-        if (!SpUtils.getInstance(MainActivity.this).getBoolean(Constant.showPop, true))
+        if (!SpUtils.getInstance(TransActivity.this).getBoolean(Constant.showPop, true))
             translateFragment.showResult(youDaoBean);
     }
 
     @Override
     public void resetText() {
-        if (!SpUtils.getInstance(MainActivity.this).getBoolean(Constant.showPop, true))
+        if (!SpUtils.getInstance(TransActivity.this).getBoolean(Constant.showPop, true))
             translateFragment.resetText();
     }
 
     @Override
     public void showLoading() {
-        if (!SpUtils.getInstance(MainActivity.this).getBoolean(Constant.showPop, true))
+        if (!SpUtils.getInstance(TransActivity.this).getBoolean(Constant.showPop, true))
             translateFragment.showLoading();
     }
 
     @Override
     public void onError(String msg) {
-        if (!SpUtils.getInstance(MainActivity.this).getBoolean(Constant.showPop, true))
+        if (!SpUtils.getInstance(TransActivity.this).getBoolean(Constant.showPop, true))
             translateFragment.onError(msg);
     }
 }
